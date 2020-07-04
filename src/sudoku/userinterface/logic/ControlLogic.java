@@ -1,5 +1,6 @@
 package sudoku.userinterface.logic;
 
+import sudoku.computationlogic.GameLogic;
 import sudoku.constants.GameState;
 import sudoku.constants.Messages;
 import sudoku.problemdomain.IStorage;
@@ -10,8 +11,8 @@ import java.io.IOException;
 
 public class ControlLogic implements IUserInterfaceContract.EventListener {
 
-    private IStorage storage;
-    private IUserInterfaceContract.View view;
+    private final IStorage storage;
+    private final IUserInterfaceContract.View view;
 
     public ControlLogic(IStorage storage, IUserInterfaceContract.View view) {
         this.storage = storage;

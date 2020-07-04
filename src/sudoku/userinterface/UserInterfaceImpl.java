@@ -27,7 +27,7 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View,
     private final Stage stage;
     private final Group root;
 
-    private HashMap<Coordinates, SudokuTextField> textFieldCoordinates;
+    private final HashMap<Coordinates, SudokuTextField> textFieldCoordinates;
 
     private IUserInterfaceContract.EventListener listener;
 
@@ -119,6 +119,8 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View,
                 tile.setOnKeyPressed(this);
 
                 textFieldCoordinates.put(new Coordinates(xIndex, yIndex), tile);
+
+                root.getChildren().add(tile);
             }
         }
     }
@@ -213,19 +215,12 @@ public class UserInterfaceImpl implements IUserInterfaceContract.View,
     }
 
     @Override
-    public void showError(String message) {
-        Alert dialog = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
-        dialog.showAndWait();
-    }
-
-
-    @Override
     public void handle(KeyEvent keyEvent) {
         if (keyEvent.getEventType() == KeyEvent.KEY_PRESSED) {
             if (keyEvent.getText().matches("[0-9]")) {
                 int value = Integer.parseInt(keyEvent.getText());
                 handleInput(value, keyEvent.getSource());
-            } else if (keyEvent.getCode() == KeyCode.BACK_SPACE){
+            } else if (keyEvent.getCode() == KeyCode.BACK_SPACE) {
                 handleInput(0, keyEvent.getSource());
             } else {
                 ((TextField) keyEvent.getSource()).setText("");

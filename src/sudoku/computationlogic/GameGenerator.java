@@ -1,7 +1,6 @@
 package sudoku.computationlogic;
 
 import sudoku.problemdomain.Coordinates;
-import sudoku.problemdomain.SudokuGame;
 
 import static sudoku.problemdomain.SudokuGame.GRID_BOUNDARY;
 
@@ -10,22 +9,22 @@ import java.util.List;
 import java.util.Random;
 
 public class GameGenerator {
-    public static int[][] newGameGrid() {
-        return unsolveGame(getSolvedgame());
+    public static int[][] getNewGameGrid() {
+        return unSolveGame(getSolvedGame());
     }
 
-    private static int[][] unsolveGame(int[][] solvedgame) {
+    private static int[][] unSolveGame(int[][] solvedgame) {
         Random random = new Random(System.currentTimeMillis());
 
         boolean solvable = false;
         int[][] solvableArray = new int[GRID_BOUNDARY][GRID_BOUNDARY];
 
-        while (solvable == false) {
+        while (!solvable) {
             SudokuUtilities.copySudokuArrayValues(solvedgame, solvableArray);
 
             int index = 0;
 
-            while (index < 60) {
+            while (index < 50) {
                 int xCoordinate = random.nextInt(GRID_BOUNDARY);
                 int yCoordinate = random.nextInt(GRID_BOUNDARY);
 
@@ -40,11 +39,10 @@ public class GameGenerator {
                 solvable = SudokuSolver.puzzleIsSolvable(toBeSolved);
             }
         }
-
         return solvableArray;
     }
 
-    private static int[][] getSolvedgame() {
+    private static int[][] getSolvedGame() {
         Random random = new Random(System.currentTimeMillis());
         int[][] newGrid = new int[GRID_BOUNDARY][GRID_BOUNDARY];
         for (int value = 1; value <= GRID_BOUNDARY; value++) {
@@ -56,9 +54,7 @@ public class GameGenerator {
             int attempts = 0;
             while (allocations < GRID_BOUNDARY) {
                 if (interrupt > 200) {
-                    allocTracker.forEach(coordinates -> {
-                        newGrid[coordinates.getX()][coordinates.getY()] = 0;
-                    });
+                    allocTracker.forEach(coordinates -> newGrid[coordinates.getX()][coordinates.getY()] = 0);
 
                     interrupt = 0;
                     allocations = 0;
